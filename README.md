@@ -46,15 +46,15 @@ flowchart TD
     A[train.csv / test.csv] --> B[Data Loading]
 
     subgraph Preprocess[Data Cleaning & Preprocessing]
-      B --> C1[Handle Missing Values\n(median/mode)]
-      C1 --> C2[Drop Sparse Columns\n(Alley, PoolQC, Fence, MiscFeature, Id)]
-      C2 --> C3[Outlier Handling\n(IQR on MasVnrArea, BsmtUnfSF)]
+      B --> C1[Handle Missing Values (median/mode)]
+      C1 --> C2[Drop Sparse Columns (Alley, PoolQC, Fence, MiscFeature, Id)]
+      C2 --> C3[Outlier Handling (IQR on MasVnrArea, BsmtUnfSF)]
     end
 
     C3 --> D[Feature Engineering]
-    D --> D1[Type Fixes\nMSSubClass → categorical]
+    D --> D1[Type Fixes: MSSubClass → categorical]
     D1 --> D2[One-Hot Encoding]
-    D2 --> D3[RFE Feature Selection\n(keep ~83 features)]
+    D2 --> D3[RFE Feature Selection (keep ~83 features)]
 
     subgraph Models[Model Training & Evaluation]
       direction LR
@@ -81,7 +81,8 @@ flowchart TD
     Metrics -->|Select best (CatBoost/XGB/LGBM)| F[Final Model]
 
     A -->|test.csv features aligned to train dummies| G[Prediction Pipeline]
-    F --> G --> H[Predictions CSV\nREG-02-CKPT3.csv]
+    F --> G --> H[Predictions CSV → REG-02-CKPT3.csv]
+
 ```
 
 ---
