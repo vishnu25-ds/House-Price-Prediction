@@ -397,30 +397,5 @@ HousePricePrediction/
 ├── README.md
 └── REG-02-CKPT3.csv                  # final predictions for submission
 ```
-## 🚀 Getting Started
 
-Follow these steps to set up and run the project locally:
-
-1. **Clone the repository**
-   git clone https://github.com/<your-username>/HousePricePrediction.git
-   cd HousePricePrediction
-
-2. **(Optional) Create a virtual environment**
-   python -m venv venv
-   source venv/bin/activate   # On Linux/Mac
-   venv\Scripts\activate      # On Windows
-
-3. **Install dependencies**
-   pip install -r requirements.txt
-
-4. **Run preprocessing & training**
-   python src/train/train_all.py
-
-5. **Generate predictions on test set**
-   python src/predict.py
-
-6. **View reports & results**
-   - Model performance metrics → reports/metrics/
-   - Visualizations → reports/figures/
-   - Final predictions → REG-02-CKPT3.csv
-
+---
