@@ -45,22 +45,29 @@ This project uses the **Kaggle Housing Dataset**:
 
 ```mermaid
 
-flowchart LR
-  %% row 1: preprocessing
-  A["Load & Validate (train.csv, test.csv)"] --> B["Clean & Impute"] --> C["Outlier Handling (IQR)"]
 
-  %% row 2: features + modeling
-  D["Type Fixes, One-Hot Encode"] --> E["Feature Selection (RFE ~83)"] --> F["Train Models & Compare"]
+flowchart TB
+    A["Load Data (train.csv, test.csv)"]
+    B["Preprocessing<br/>(Cleaning, Imputation, Outlier Handling,<br/>Encoding, Feature Selection)"]
 
-  %% bridge and outputs
-  C -.-> D
-  F --> G["Best Model"]
-  G --> H["Predict on test.csv"]
-  H --> I["Export CSV: REG-02-CKPT3.csv"]
+    subgraph MODELS["Train Models"]
+        C1["Linear Regression"]
+        C2["Random Forest"]
+        C3["XGBoost"]
+        C4["CatBoost"]
+    end
 
-  %% clean, subtle styling
-  classDef node fill:#f8f9fa,stroke:#333,stroke-width:1px,color:#111;
-  class A,B,C,D,E,F,G,H,I node;
+    D["Compare Metrics (MAE, RMSE, R²)"]
+    E["Best Model Selected"]
+    F["Predict on test.csv<br/>Export: REG-02-CKPT3.csv"]
+
+    %% Flow connections
+    A --> B --> C1 & C2 & C3 & C4 --> D --> E --> F
+
+    %% Styling for dashed boxes
+    classDef dashed fill:#fff,stroke:#333,stroke-dasharray: 5 5,color:#111;
+    class A,B,C1,C2,C3,C4,D,E,F dashed;
+
 ```
 
 ---
