@@ -52,9 +52,9 @@ flowchart TD
     end
 
     C3 --> D[Feature Engineering]
-    D --> D1[Type Fixes: MSSubClass → categorical]
+    D --> D1[Type Fixes: MSSubClass as categorical]
     D1 --> D2[One-Hot Encoding]
-    D2 --> D3[RFE Feature Selection (keep ~83 features)]
+    D2 --> D3[RFE Feature Selection (~83 features kept)]
 
     subgraph Models[Model Training & Evaluation]
       direction LR
@@ -80,8 +80,8 @@ flowchart TD
     Models --> Metrics
     Metrics -->|Select best (CatBoost/XGB/LGBM)| F[Final Model]
 
-    A -->|test.csv features aligned to train dummies| G[Prediction Pipeline]
-    F --> G --> H[Predictions CSV → REG-02-CKPT3.csv]
+    A -->|test.csv aligned to train features| G[Prediction Pipeline]
+    F --> G --> H[Predictions CSV: REG-02-CKPT3.csv]
 
 ```
 
