@@ -47,10 +47,11 @@ This project uses the **Kaggle Housing Dataset**:
 
 
 flowchart TB
-    A["Load Data (train.csv, test.csv)"]
-    B["Preprocessing<br/>(Cleaning, Imputation, Outlier Handling,<br/>Encoding, Feature Selection)"]
+    A["Load & Validate (train.csv, test.csv)"]
+    B["Preprocessing<br/>(Clean, Impute, Outlier Handling,<br/>Encoding, Feature Selection)"]
 
-    subgraph MODELS["Train Models"]
+    subgraph MODELS["Model Training"]
+        direction LR
         C1["Linear Regression"]
         C2["Random Forest"]
         C3["XGBoost"]
@@ -61,12 +62,13 @@ flowchart TB
     E["Best Model Selected"]
     F["Predict on test.csv<br/>Export: REG-02-CKPT3.csv"]
 
-    %% Flow connections
+    %% Flow
     A --> B --> C1 & C2 & C3 & C4 --> D --> E --> F
 
-    %% Styling for dashed boxes
+    %% Dashed style for all boxes
     classDef dashed fill:#fff,stroke:#333,stroke-dasharray: 5 5,color:#111;
     class A,B,C1,C2,C3,C4,D,E,F dashed;
+
 
 ```
 
