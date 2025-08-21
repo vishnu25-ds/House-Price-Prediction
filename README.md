@@ -255,39 +255,77 @@ We measured performance using:
 ---
 ## 📂 Project Structure
 
+
 ```text
 HousePricePrediction/
 │
 ├── data/
-│   ├── raw/                 # Original dataset (train.csv, test.csv)
-│   ├── processed/           # Cleaned & preprocessed datasets
-│   └── external/            # Optional: external datasets
+│   ├── raw/                          # train.csv, test.csv
+│   ├── processed/                    # cleaned data after imputation/encoding
+│   └── external/                     # optional external datasets
 │
-├── notebooks/               # Jupyter notebooks
+├── notebooks/
 │   ├── 01_data_exploration.ipynb
 │   ├── 02_data_preprocessing.ipynb
 │   ├── 03_feature_engineering.ipynb
 │   ├── 04_model_training.ipynb
 │   └── 05_model_evaluation.ipynb
 │
-├── src/                     # Source code scripts
+├── src/
 │   ├── __init__.py
-│   ├── data_preprocessing.py
-│   ├── feature_engineering.py
-│   ├── model_training.py
-│   ├── evaluation.py
-│   └── predict.py
+│   ├── config.py                     # paths, constants, model params (optional)
+│   ├── utils.py                      # helpers (seed, io, metrics wrappers)
+│   ├── data_preprocessing.py         # imputation, encoding, outliers
+│   ├── feature_engineering.py        # new features, RFE, interactions
+│   ├── pipeline.py                   # full end-to-end pipeline assembly
+│   ├── evaluation.py                 # common metric functions + plots
+│   │
+│   ├── models/                       # one file per model
+│   │   ├── linear_regression.py
+│   │   ├── decision_tree.py
+│   │   ├── random_forest.py
+│   │   ├── svr.py
+│   │   ├── xgboost_model.py
+│   │   ├── lightgbm_model.py
+│   │   ├── catboost_model.py
+│   │   └── knn.py
+│   │
+│   ├── train/                        # training entrypoints
+│   │   ├── train_all.py              # trains all models & saves metrics
+│   │   ├── train_linear.py
+│   │   ├── train_decision_tree.py
+│   │   ├── train_random_forest.py
+│   │   ├── train_svr.py
+│   │   ├── train_xgboost.py
+│   │   ├── train_lightgbm.py
+│   │   ├── train_catboost.py
+│   │   └── train_knn.py
+│   │
+│   └── predict.py                    # load best model + predict test.csv
 │
-├── models/                  # Saved/trained models
-│   ├── catboost_model.pkl
+├── models/                           # saved model artifacts
+│   ├── linear_regression.pkl
+│   ├── decision_tree.pkl
+│   ├── random_forest.pkl
+│   ├── svr.pkl
 │   ├── xgboost_model.pkl
-│   └── lightgbm_model.pkl
+│   ├── lightgbm_model.pkl
+│   ├── catboost_model.pkl
+│   └── knn.pkl
 │
-├── reports/                 # Reports & figures
-│   ├── figures/             # Graphs, plots
-│   └── model_comparison.png
+├── reports/
+│   ├── figures/
+│   │   ├── neighborhood_dist.png
+│   │   ├── correlation_heatmap.png
+│   │   ├── model_comparison.png
+│   │   ├── actual_vs_pred_lr.png
+│   │   ├── actual_vs_pred_rf.png
+│   │   └── actual_vs_pred_cat.png
+│   └── metrics/                      # CSV/JSON of MAE, RMSE, R² per model
 │
-├── requirements.txt         # Python dependencies
-├── environment.yml          # Optional Conda environment
+├── logs/                             # optional: training/eval logs
+│
+├── requirements.txt
+├── environment.yml
 ├── README.md
-└── REG-02-CKPT3.csv         # Predictions on test set
+└── REG-02-CKPT3.csv                  # final predictions for submission
