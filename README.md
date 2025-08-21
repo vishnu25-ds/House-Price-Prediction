@@ -53,9 +53,13 @@ flowchart TB
     subgraph MODELS["Model Training"]
         direction LR
         C1["Linear Regression"]
-        C2["Random Forest"]
-        C3["XGBoost"]
-        C4["CatBoost"]
+        C2["Decision Tree"]
+        C3["Random Forest"]
+        C4["SVR"]
+        C5["XGBoost"]
+        C6["LightGBM"]
+        C7["CatBoost"]
+        C8["KNN"]
     end
 
     D["Compare Metrics (MAE, RMSE, R²)"]
@@ -63,11 +67,11 @@ flowchart TB
     F["Predict on test.csv<br/>Export: REG-02-CKPT3.csv"]
 
     %% Flow
-    A --> B --> C1 & C2 & C3 & C4 --> D --> E --> F
+    A --> B --> C1 & C2 & C3 & C4 & C5 & C6 & C7 & C8 --> D --> E --> F
 
     %% Dashed style for all boxes
     classDef dashed fill:#fff,stroke:#333,stroke-dasharray: 5 5,color:#111;
-    class A,B,C1,C2,C3,C4,D,E,F dashed;
+    class A,B,C1,C2,C3,C4,C5,C6,C7,C8,D,E,F dashed;
 
 
 ```
