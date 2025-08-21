@@ -42,6 +42,10 @@ This project uses the **Kaggle Housing Dataset**:
 ---
 ## 🏗️ Architecture 
 ```mermaid
+
+
+
+
 flowchart TD
     A[train.csv / test.csv] --> B[Data Loading]
 
