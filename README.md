@@ -42,54 +42,56 @@ This project uses the **Kaggle Housing Dataset**:
 ---
 ## 🏗️ Architecture
 ```mermaid
+
 flowchart TD
     A[train.csv / test.csv] --> B[Data Loading]
 
     subgraph Preprocess[Data Cleaning & Preprocessing]
-      B --> C1["Handle Missing Values (median/mode)"]
-      C1 --> C2["Drop Sparse Columns: Alley, PoolQC, Fence, MiscFeature, Id"]
-      C2 --> C3["Outlier Handling: IQR on MasVnrArea, BsmtUnfSF"]
-      C3 --> C4["Align test.csv features with train features"]
+      B --> C1[Handle Missing Values (median/mode)]
+      C1 --> C2[Drop Sparse Columns (Alley, PoolQC, Fence, MiscFeature, Id)]
+      C2 --> C3[Outlier Handling (IQR on MasVnrArea, BsmtUnfSF)]
     end
 
-    subgraph FeatureEng[Feature Engineering]
-      C4 --> D1["Type Fixes: MSSubClass as categorical"]
-      D1 --> D2["One-Hot Encoding for categorical variables"]
-      D2 --> D3["RFE Feature Selection (~83 features kept)"]
-    end
+    C3 --> D[Feature Engineering]
+    D --> D1[Type Fixes: MSSubClass as categorical]
+    D1 --> D2[One-Hot Encoding]
+    D2 --> D3[RFE Feature Selection (~83 features kept)]
 
     subgraph Models[Model Training & Evaluation]
       direction LR
-      D3 --> E1[Linear Regression]
-      D3 --> E2[Decision Tree]
-      D3 --> E3[Random Forest]
-      D3 --> E4["SVR (default & tuned)"]
-      D3 --> E5["XGBoost (default & tuned)"]
-      D3 --> E6["LightGBM (default & tuned)"]
-      D3 --> E7["CatBoost (default & tuned)"]
-      D3 --> E8[KNN]
+      E1[Linear Regression]
+      E2[Decision Tree]
+      E3[Random Forest]
+      E4[SVR (default & tuned)]
+      E5[XGBoost]
+      E6[LightGBM]
+      E7[CatBoost]
+      E8[KNN]
     end
+
+    D3 --> Models
 
     subgraph Metrics[Model Comparison]
-      E1 --> M1[MAE]
-      E2 --> M1
-      E3 --> M1
-      E4 --> M1
-      E5 --> M1
-      E6 --> M1
-      E7 --> M1
-      E8 --> M1
-
-      M1 --> M2[MSE / RMSE]
-      M2 --> M3[R²]
-      M3 --> M4[Actual vs Predicted Plots]
-      M4 --> M5[Cross-Validation Scores]
-      M5 -->|"Select Best Model (CatBoost / XGB / LGBM)"| F[Final Model]
+      M1[MAE]
+      M2[MSE / RMSE]
+      M3[R²]
+      M4[Actual vs Predicted Plots]
     end
 
-    F --> G[Prediction Pipeline for Test Data]
-    G --> H["Predictions CSV: REG-02-CKPT3.csv"]
+    Models --> Metrics
+    Metrics -->|Select best (CatBoost/XGB/LGBM)| F[Final Model]
 
+    A -->|test.csv aligned to train features| G[Prediction Pipeline]
+    F --> G --> H[Predictions CSV: REG-02-CKPT3.csv]
+
+    %% 🎨 Styling
+    style A fill:#FFDDC1,stroke:#333,stroke-width:2px
+    style Preprocess fill:#E0BBE4,stroke:#333,stroke-width:2px
+    style D fill:#957DAD,stroke:#333,stroke-width:2px,color:#fff
+    style Models fill:#B5EAD7,stroke:#333,stroke-width:2px
+    style Metrics fill:#C7CEEA,stroke:#333,stroke-width:2px
+    style F fill:#FF6F61,stroke:#333,stroke-width:3px,color:#fff
+    style H fill:#FFD700,stroke:#333,stroke-width:2px
 
 
 
