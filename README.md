@@ -45,62 +45,36 @@ This project uses the **Kaggle Housing Dataset**:
 
 ```mermaid
 flowchart LR
-  %% ===== NODES =====
-  A["train.csv / test.csv"]:::data --> B["Data Loading"]:::stage
-
-  subgraph S1["Preprocessing"]
+  %% ===== TRAINING =====
+  subgraph T["Training Pipeline"]
     direction TB
-    C1["Impute Missing (median or mode)"]:::box
-    C2["Drop Sparse Columns: Alley, PoolQC, Fence, MiscFeature, Id"]:::box
-    C3["Outlier Handling: IQR on MasVnrArea and BsmtUnfSF"]:::box
+    T0["train.csv"]:::data --> T1["Load Data"]:::stage
+    T1 --> T2["Impute Missing, Drop Sparse, Outlier Handling"]:::stage
+    T2 --> T3["Type Fixes and One Hot Encoding"]:::stage
+    T3 --> T4["RFE Feature Selection"]:::stage
+    T4 --> T5["Train Multiple Models"]:::model
+    T5 --> T6["Evaluate: MAE, MSE, RMSE, R2"]:::metric
+    T6 --> T7["Select Best Model"]:::final
   end
 
-  subgraph S2["Feature Engineering"]
+  %% ===== INFERENCE =====
+  subgraph I["Inference Pipeline"]
     direction TB
-    D1["Type Fixes: MSSubClass as categorical"]:::box
-    D2["One Hot Encoding"]:::box
-    D3["RFE Feature Selection (about 83 features)"]:::box
-    D4["Align Train and Test Columns"]:::box
+    I0["test.csv"]:::data --> I1["Load Data"]:::stage
+    I1 --> I2["Apply Same Preprocessing and Encoding"]:::stage
+    I2 --> I3["Align Columns to Training Features"]:::stage
+    I3 --> I4["Load Best Model"]:::final
+    I4 --> I5["Predict SalePrice"]:::stage
+    I5 --> I6["Export CSV: REG-02-CKPT3.csv"]:::artifact
   end
-
-  subgraph S3["Modeling"]
-    direction LR
-    E1["Linear Regression"]:::model
-    E2["Decision Tree"]:::model
-    E3["Random Forest"]:::model
-    E4["SVR (default and tuned)"]:::model
-    E5["XGBoost"]:::model
-    E6["LightGBM"]:::model
-    E7["CatBoost"]:::model
-    E8["KNN"]:::model
-  end
-
-  subgraph S4["Evaluation"]
-    direction TB
-    M1["MAE"]:::metric
-    M2["MSE and RMSE"]:::metric
-    M3["R2"]:::metric
-    M4["Actual vs Predicted Plots"]:::metric
-    M5["Compare and Select Best Model"]:::stage
-  end
-
-  F["Final Model"]:::final
-  G["Prediction Pipeline"]:::stage
-  H["Predictions CSV: REG-02-CKPT3.csv"]:::artifact
-
-  %% ===== FLOWS =====
-  B --> S1 --> S2 --> S3 --> S4 --> F --> G --> H
-  A --> B
 
   %% ===== STYLES =====
   classDef data fill:#FFEDD5,stroke:#333,stroke-width:1px;
-  classDef stage fill:#E5E7EB,stroke:#333,stroke-width:1px;
-  classDef box fill:#E9D5FF,stroke:#333,stroke-width:1px;
+  classDef stage fill:#E9D5FF,stroke:#333,stroke-width:1px;
   classDef model fill:#BBF7D0,stroke:#333,stroke-width:1px;
   classDef metric fill:#FDE68A,stroke:#333,stroke-width:1px;
   classDef final fill:#FCA5A5,stroke:#333,stroke-width:2px;
   classDef artifact fill:#FDE68A,stroke:#333,stroke-width:1px;
-
 ```
 
 ---
