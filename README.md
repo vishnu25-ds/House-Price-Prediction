@@ -40,7 +40,50 @@ This project uses the **Kaggle Housing Dataset**:
   - Outliers replaced with **median (BsmtUnfSF)** or **mean (MasVnrArea)**:contentReference[oaicite:5]{index=5}  
 
 ---
+## 🏠 Features  
 
+The dataset contains **80 features** (43 categorical + 38 numerical) that describe properties, their condition, and sale information.  
+
+### Property & Lot Information  
+- `MSSubClass` – Type of dwelling  
+- `MSZoning` – Zoning classification  
+- `LotFrontage` – Linear feet of street connected to property  
+- `LotArea` – Lot size in square feet  
+- `LotShape` – Property shape (Regular/Irregular)  
+- `Neighborhood` – Physical location within Ames city limits  
+
+### Building & Interior Features  
+- `YearBuilt` – Year house was built  
+- `OverallQual` – Overall material and finish quality (1–10)  
+- `OverallCond` – Overall condition rating  
+- `GrLivArea` – Above-ground living area (sq ft)  
+- `BedroomAbvGr` – Bedrooms above ground level  
+- `KitchenQual` – Kitchen quality  
+- `TotRmsAbvGrd` – Total rooms above ground  
+
+### Basement & Garage Features  
+- `TotalBsmtSF` – Total basement area (sq ft)  
+- `BsmtFinSF1` – Finished basement area (Type 1)  
+- `BsmtUnfSF` – Unfinished basement area  
+- `GarageType` – Garage location (attached, detached, etc.)  
+- `GarageCars` – Garage capacity (number of cars)  
+- `GarageArea` – Garage size (sq ft)  
+
+### Exterior Features  
+- `RoofStyle`, `RoofMatl` – Roof type & material  
+- `Exterior1st`, `Exterior2nd` – Exterior covering on house  
+- `MasVnrArea` – Masonry veneer area (sq ft)  
+- `ExterQual` – Exterior material quality  
+
+### Sale Information  
+- `MoSold` – Month house was sold  
+- `YrSold` – Year house was sold  
+- `SaleType` – Type of sale (Normal, Auction, etc.)  
+- `SaleCondition` – Condition of sale  
+
+📌 **Dropped features** due to excessive missing values:  
+- `Alley`, `PoolQC`, `Fence`, `MiscFeature`, and `Id`.  
+---
 ## 📈 Exploratory Data Analysis (EDA)  
 
 Performed with **Seaborn, Matplotlib, and FastEDA**.  
