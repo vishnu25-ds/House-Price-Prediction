@@ -255,4 +255,38 @@ We measured performance using:
 ---
 
 ## 📂 Project Structure  
-
+HousePricePrediction/
+│
+├── data/
+│ ├── raw/ # Original dataset (train.csv, test.csv)
+│ ├── processed/ # Cleaned & preprocessed datasets
+│ └── external/ # Optional: external datasets
+│
+├── notebooks/ # Jupyter notebooks
+│ ├── 01_data_exploration.ipynb
+│ ├── 02_data_preprocessing.ipynb
+│ ├── 03_feature_engineering.ipynb
+│ ├── 04_model_training.ipynb
+│ └── 05_model_evaluation.ipynb
+│
+├── src/ # Source code scripts
+│ ├── init.py
+│ ├── data_preprocessing.py
+│ ├── feature_engineering.py
+│ ├── model_training.py
+│ ├── evaluation.py
+│ └── predict.py
+│
+├── models/ # Saved/trained models
+│ ├── catboost_model.pkl
+│ ├── xgboost_model.pkl
+│ └── lightgbm_model.pkl
+│
+├── reports/ # Reports & figures
+│ ├── figures/ # Graphs, plots
+│ └── model_comparison.png
+│
+├── requirements.txt # Python dependencies
+├── environment.yml # Optional Conda environment
+├── README.md
+└── REG-02-CKPT3.csv # Predictions on test set
