@@ -1,94 +1,178 @@
-# House-Price-Prediction
+# 🏡 House Price Prediction using Machine Learning Regression Models  
 
-# Housing Price Prediction using Machine Learning
+An end-to-end machine learning project that predicts house sale prices using advanced regression models. This project (Team REG-02) integrates data cleaning, preprocessing, feature engineering, model training, evaluation, and prediction generation.  
 
-This repository contains a machine learning project for predicting house prices using various regression models. The dataset used is the `train.csv` file, and the goal is to predict the `SalePrice` of houses based on a variety of features.
+---
 
-## Libraries Used
+## 🔬 Background & Objectives  
 
-The following libraries are used in this project:
+The **primary objective** of this project is to predict residential property sale prices based on diverse property characteristics.  
 
-- `matplotlib` - For data visualization and plotting graphs.
-- `seaborn` - For statistical data visualization.
-- `pandas` - For data manipulation and analysis.
-- `numpy` - For numerical operations.
-- `lightgbm` - For LightGBM regression model.
-- `xgboost` - For XGBoost regression model.
-- `sklearn` - For machine learning tools such as regression models and metrics.
-- `catboost` - For CatBoost regression model.
-- `colorama` - For colored output in terminal.
-- `datacleaner` - For data cleaning tasks (handling missing values and duplicates).
-- `fasteda` - For performing exploratory data analysis (EDA).
-- `tabulate` - For creating formatted tables for output.
+- **Inputs:** Lot size, area, number of bedrooms, neighborhood, year built, garage type, etc.  
+- **Output:** Predicted sale price.  
 
-## Overview
+### Why is this important?  
+- 🏠 Helps **sellers** determine competitive prices  
+- 👩‍👩‍👧 Helps **buyers** estimate fair values  
+- 🏢 Assists **real estate agencies** with data-driven recommendations  
 
-This project aims to predict house prices based on various features. Below is a detailed explanation of the steps taken throughout the project.
+This project uses the **Kaggle Housing Dataset**:  
+- **Training Data:** 1,460 rows × 81 columns  
+- **Feature Types:**  
+  - 38 numerical  
+  - 43 categorical:contentReference[oaicite:3]{index=3}  
 
-### 1. **Loading and Preprocessing the Dataset**
-- **Dataset Loading**: The dataset (`train.csv`) is loaded using `pandas`, a Python library for data manipulation.
-- **Shape of Dataset**: The shape of the dataset is printed, providing the number of rows (entries) and columns (features).
-- **Data Type Identification**: The data types of each column are displayed to ensure they align with the type of analysis we wish to perform (e.g., numerical columns for continuous variables and categorical columns for categories).
-- **Converting Numerical to Categorical**: The `MSSubClass` column is converted to a categorical data type because it represents different property types, not a continuous variable.
+---
 
-### 2. **Exploratory Data Analysis (EDA)**
-- **Descriptive Statistics**: We use `df.describe()` to generate basic statistics of the dataset, including mean, standard deviation, and range, to understand the distribution of data.
-- **Missing Values Analysis**: Missing data is identified and displayed using `df.isnull().sum()`, which helps determine the next steps for data cleaning.
-- **Visualizations**:
-  - **Count Plots**: Various categorical features (such as `GarageType`, `LotShape`, `BldgType`) are visualized using `seaborn.countplot`.
-  - **Box Plots**: Box plots for numerical features like `MasVnrArea` and `BsmtUnfSF` are used to detect outliers.
-  
-### 3. **Handling Missing Values and Outliers**
-- **Data Cleaning**: The `autoclean` function from the `datacleaner` package is used to handle missing values and duplicates.
-- **Outlier Handling**: Outliers in the `MasVnrArea` and `BsmtUnfSF` columns are handled using the IQR method. The extreme values are replaced by the mean or median, which helps reduce the impact of outliers on model performance.
+## 📊 Dataset Details  
 
-### 4. **Feature Engineering**
-- **One-Hot Encoding**: Categorical features are encoded using one-hot encoding with `pd.get_dummies()`, making them suitable for machine learning models.
-- **Feature Selection**: Recursive Feature Elimination (RFE) is used to select the most important features based on their contribution to the target variable `SalePrice`. This helps to reduce the feature space and improve model performance.
+- **Source:** Kaggle House Prices – Advanced Regression Techniques  
+- **Target Variable:** `SalePrice`  
+- **Dropped Columns (due to missingness):** `Alley`, `PoolQC`, `Fence`, `MiscFeature`, `Id`:contentReference[oaicite:4]{index=4}  
+- **Handling Missing Values:**  
+  - Numerical → median imputation  
+  - Categorical → mode imputation  
+- **Feature Transformations:**  
+  - Converted `MSSubClass` to categorical  
+  - One-hot encoding applied to categorical features  
+- **Outlier Handling:**  
+  - Features like `MasVnrArea`, `BsmtUnfSF` treated using IQR thresholds  
+  - Outliers replaced with **median (BsmtUnfSF)** or **mean (MasVnrArea)**:contentReference[oaicite:5]{index=5}  
 
-### 5. **Model Training and Evaluation**
-- **Training Multiple Models**: Various regression models are trained to predict house prices:
-  - `LinearRegression`
-  - `SVR` (Support Vector Regression)
-  - `DecisionTreeRegressor`
-  - `RandomForestRegressor`
-  - `XGBoost`
-  - `LGBMRegressor`
-  - `CatBoostRegressor`
-  - `KNeighborsRegressor`
-  
-- **Model Evaluation**: For each model, performance is evaluated using several metrics:
-  - **Mean Squared Error (MSE)**
-  - **Root Mean Squared Error (RMSE)**
-  - **R² (R-squared)**
-  - **Mean Absolute Error (MAE)**
+---
 
-- **Model Comparison**: The performance of each model is compared by visualizing the **Actual vs Predicted** values for each model and calculating the error metrics for model selection.
+## 📈 Exploratory Data Analysis (EDA)  
 
-### 6. **Hyperparameter Tuning for KNN**
-- **Finding Best `k` for KNN**: The optimal number of neighbors (`k`) for the KNN model is found by plotting R² scores for different values of `k` (1, 3, 5, 7, 9). This is crucial to improving KNN's performance.
+Performed with **Seaborn, Matplotlib, and FastEDA**.  
 
-### 7. **Making Predictions on New Data**
-- After training and evaluating the models, the best model (`CatBoostRegressor`) is applied to a test dataset (`test.csv`) to predict the house prices.
-- **Saving Predictions**: The predicted house prices are saved to a CSV file (`REG-02-CKPT3.csv`) for further analysis or submission.
+- Countplots for categorical features (`GarageType`, `LotShape`, `Neighborhood`)  
+- Boxplots to detect outliers (`MasVnrArea`, `BsmtUnfSF`)  
+- Correlation heatmap to detect strong feature relationships  
+- Distribution plots for key numeric features  
 
-### 8. **Model Performance Summary**
-- **Results Comparison**: A summary table using the `tabulate` library is generated, comparing key performance metrics (MAE, MSE, RMSE, R²) across all models. This provides a clear view of which model performed the best.
+📌 Example:  
+![Neighborhood Distribution](images/neighborhood_dist.png)  
+*Property distribution across neighborhoods*  
 
-### 9. **Visualizations**
-- **Actual vs Predicted Plots**: Scatter plots of actual vs predicted values for each model (Linear Regression, SVR, Decision Tree, Random Forest, etc.) are generated to visually assess model performance.
-- **Error Distribution**: Plots showing how prediction errors are distributed across the models.
-- **Feature Importance**: Important features are visualized for models like Random Forest, XGBoost, and CatBoost to understand which features have the greatest impact on house price prediction.
+📌 Example:  
+![Correlation Heatmap](images/correlation_heatmap.png)  
+*Correlation of features with SalePrice*  
 
-## Dataset
+---
 
-The dataset used for this project is a housing price dataset. It contains various features related to house attributes such as:
-- MSSubClass
-- GarageType
-- LotShape
-- Neighborhood
-- YearBuilt
-- TotalBsmtSF
-- SalePrice (target variable)
+## 🛠️ Data Preprocessing & Feature Engineering  
 
+### Steps Taken  
+1. **Data Cleaning**  
+   - Handled missing values  
+   - Dropped sparse columns  
+   - Removed duplicates  
+
+2. **Outlier Handling**  
+   - Applied IQR method  
+   - Replaced extreme values with median/mean:contentReference[oaicite:6]{index=6}  
+
+3. **Feature Engineering**  
+   - Converted numerical → categorical (e.g., `MSSubClass`)  
+   - One-hot encoded categorical variables  
+   - Interaction features (`GrLivArea × OverallQual`)  
+
+4. **Feature Selection with RFE**  
+   - Recursive Feature Elimination chosen  
+   - Retained **83 features** as optimal  
+   - Reduced multicollinearity & improved interpretability:contentReference[oaicite:7]{index=7}  
+
+📌 Example — Outliers Before & After:  
+![Outliers Before](images/outliers_before.png)  
+![Outliers After](images/outliers_after.png)  
+
+---
+
+## 🤖 Models Trained  
+
+We experimented with a wide range of models:  
+
+| Model | Advantages | Limitations |
+|-------|------------|-------------|
+| **Linear Regression** | Easy to interpret | Sensitive to outliers, poor with non-linear data |
+| **Decision Tree** | Handles non-linearity, interpretable | Overfitting, unstable |
+| **Random Forest** | Robust, reduces overfitting | Slower, less interpretable |
+| **SVR** | Handles linear & non-linear | High computation, tuning required |
+| **XGBoost** | High accuracy, handles missing values | Complex tuning, memory usage |
+| **LightGBM** | Fast, efficient | Overfitting, memory consumption |
+| **CatBoost** | Handles categorical features well | Training time, memory usage |
+| **KNN** | Intuitive, non-parametric | Poor in high dimensions:contentReference[oaicite:8]{index=8}:contentReference[oaicite:9]{index=9}  
+
+📌 Example — Workflow:  
+![Workflow](images/workflow.png)  
+
+---
+
+## 📏 Evaluation Metrics  
+
+We measured performance using:  
+
+- **MAE (Mean Absolute Error)** – average error  
+- **MSE (Mean Squared Error)** – penalizes large errors  
+- **RMSE (Root Mean Squared Error)** – standard deviation of prediction errors  
+- **R² Score** – variance explained:contentReference[oaicite:10]{index=10}  
+
+---
+
+## 📊 Results  
+
+| Model | MAE | MSE (×10⁸) | RMSE | R² |
+|-------|-----|------------|------|----|
+| Linear Regression | 21,881 | 12.2 | 34,934 | 0.84 |
+| SVR (Default) | 59,548 | 78.6 | 88,644 | -0.02 |
+| SVR (Tuned) | 24,317 | 17.1 | 41,419 | 0.78 |
+| Decision Tree | 27,470 | 17.5 | 41,811 | 0.77 |
+| Random Forest | 18,404 | 8.8 | 29,691 | 0.89 |
+| XGBoost | 18,628 | 8.4 | 28,982 | 0.90 |
+| LightGBM | 16,633 | 8.1 | 28,374 | 0.90 |
+| **CatBoost** | **15,765** | **7.5** | **27,313** | **0.91** |
+| KNN (k=5) | 27,706 | 19.2 | 43,826 | 0.75 |:contentReference[oaicite:11]{index=11}  
+
+📌 Example — Model Comparison Plot  
+![Model Comparison](images/model_comparison.png)  
+
+---
+
+## 📉 Visualizations  
+
+📌 **Actual vs Predicted Scatter Plots**  
+
+- Linear Regression  
+![LR](images/actual_vs_pred_lr.png)  
+
+- Random Forest  
+![RF](images/actual_vs_pred_rf.png)  
+
+- CatBoost (Best Model)  
+![CatBoost](images/actual_vs_pred_cat.png)  
+
+📌 **KNN Hyperparameter Tuning**  
+![KNN](images/knn_best_k.png)  
+
+---
+
+## 🏆 Key Takeaways  
+
+- Feature selection (RFE) improved model interpretability & accuracy  
+- Boosting models (CatBoost, XGBoost, LightGBM) performed best  
+- CatBoost achieved the **highest R² (0.91)**  
+- Cross-validation stabilized performance:contentReference[oaicite:12]{index=12}  
+
+---
+
+## 🚀 Future Work  
+
+- Hyperparameter tuning for further accuracy  
+- Ensemble stacking (XGBoost + CatBoost + LightGBM)  
+- Integrate external features (economic/market trends)  
+- Deploy via **Flask / Streamlit** for real-time predictions:contentReference[oaicite:13]{index=13}  
+
+---
+
+## 📂 Project Structure  
 
