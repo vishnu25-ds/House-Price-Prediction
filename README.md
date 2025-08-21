@@ -40,22 +40,23 @@ This project uses the **Kaggle Housing Dataset**:
   - Outliers replaced with **median (BsmtUnfSF)** or **mean (MasVnrArea)**:contentReference[oaicite:5]{index=5}  
 
 ---
-## 🏗️ Architecture
+
+## 🏗️ Architecture (colored)
 
 ```mermaid
 flowchart TD
     A["train.csv / test.csv"] --> B["Data Loading"]
 
     subgraph Preprocess["Data Cleaning and Preprocessing"]
-      B --> C1["Handle Missing Values (median/mode)"]
-      C1 --> C2["Drop Sparse Columns (Alley, PoolQC, Fence, MiscFeature, Id)"]
-      C2 --> C3["Outlier Handling (IQR on MasVnrArea, BsmtUnfSF)"]
+      B --> C1["Handle Missing Values (median or mode)"]
+      C1 --> C2["Drop Sparse Columns: Alley, PoolQC, Fence, MiscFeature, Id"]
+      C2 --> C3["Outlier Handling: IQR on MasVnrArea and BsmtUnfSF"]
     end
 
     C3 --> D["Feature Engineering"]
     D --> D1["Type Fixes: MSSubClass as categorical"]
-    D1 --> D2["One-Hot Encoding"]
-    D2 --> D3["RFE Feature Selection (keep ~83 features)"]
+    D1 --> D2["One Hot Encoding"]
+    D2 --> D3["RFE Feature Selection (about 83 features)"]
 
     subgraph Models["Model Training and Evaluation"]
       direction LR
@@ -73,26 +74,25 @@ flowchart TD
 
     subgraph Metrics["Model Comparison"]
       M1["MAE"]
-      M2["MSE / RMSE"]
+      M2["MSE and RMSE"]
       M3["R2"]
       M4["Actual vs Predicted Plots"]
     end
 
     Models --> Metrics
-    Metrics -->| "Select best (CatBoost / XGB / LGBM)" | F["Final Model"]
+    Metrics --> F["Final Model (Best among CatBoost, XGB, LGBM)"]
 
-    A -->| "test.csv aligned to train features" | G["Prediction Pipeline"]
+    A --> G["Prediction Pipeline"]
     F --> G --> H["Predictions CSV: REG-02-CKPT3.csv"]
 
-    %% Optional colors (safe to keep or remove)
-    style A fill:#FFDDC1,stroke:#333,stroke-width:2px
-    style Preprocess fill:#E0BBE4,stroke:#333,stroke-width:2px
-    style D fill:#957DAD,stroke:#333,stroke-width:2px,color:#fff
-    style Models fill:#B5EAD7,stroke:#333,stroke-width:2px
-    style Metrics fill:#C7CEEA,stroke:#333,stroke-width:2px
-    style F fill:#FF6F61,stroke:#333,stroke-width:3px,color:#fff
-    style H fill:#FFD700,stroke:#333,stroke-width:2px
-
+    %% Simple styling (safe)
+    style A fill:#FFEDD5,stroke:#333,stroke-width:1px
+    style Preprocess fill:#E9D5FF,stroke:#333,stroke-width:1px
+    style D fill:#C7D2FE,stroke:#333,stroke-width:1px
+    style Models fill:#BBF7D0,stroke:#333,stroke-width:1px
+    style Metrics fill:#FDE68A,stroke:#333,stroke-width:1px
+    style F fill:#FCA5A5,stroke:#333,stroke-width:2px
+    style H fill:#FDE68A,stroke:#333,stroke-width:1px
 
 ```
 
