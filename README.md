@@ -79,7 +79,7 @@ flowchart TD
     end
 
     Models --> Metrics
-    Metrics -->|Select best (CatBoost/XGB/LGBM)| F[Final Model]
+    Metrics -->|Select best (CatBoost / XGB / LGBM)| F[Final Model]
 
     A -->|test.csv aligned to train features| G[Prediction Pipeline]
     F --> G --> H[Predictions CSV: REG-02-CKPT3.csv]
