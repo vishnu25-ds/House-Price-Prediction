@@ -41,58 +41,65 @@ This project uses the **Kaggle Housing Dataset**:
 
 ---
 
-## 🏗️ Architecture (colored)
+## 🏗️ Architecture (Layered)
 
 ```mermaid
-flowchart TD
-    A["train.csv / test.csv"] --> B["Data Loading"]
+flowchart LR
+  %% ===== NODES =====
+  A["train.csv / test.csv"]:::data --> B["Data Loading"]:::stage
 
-    subgraph Preprocess["Data Cleaning and Preprocessing"]
-      B --> C1["Handle Missing Values (median or mode)"]
-      C1 --> C2["Drop Sparse Columns: Alley, PoolQC, Fence, MiscFeature, Id"]
-      C2 --> C3["Outlier Handling: IQR on MasVnrArea and BsmtUnfSF"]
-    end
+  subgraph S1["Preprocessing"]
+    direction TB
+    C1["Impute Missing (median or mode)"]:::box
+    C2["Drop Sparse Columns: Alley, PoolQC, Fence, MiscFeature, Id"]:::box
+    C3["Outlier Handling: IQR on MasVnrArea and BsmtUnfSF"]:::box
+  end
 
-    C3 --> D["Feature Engineering"]
-    D --> D1["Type Fixes: MSSubClass as categorical"]
-    D1 --> D2["One Hot Encoding"]
-    D2 --> D3["RFE Feature Selection (about 83 features)"]
+  subgraph S2["Feature Engineering"]
+    direction TB
+    D1["Type Fixes: MSSubClass as categorical"]:::box
+    D2["One Hot Encoding"]:::box
+    D3["RFE Feature Selection (about 83 features)"]:::box
+    D4["Align Train and Test Columns"]:::box
+  end
 
-    subgraph Models["Model Training and Evaluation"]
-      direction LR
-      E1["Linear Regression"]
-      E2["Decision Tree"]
-      E3["Random Forest"]
-      E4["SVR (default and tuned)"]
-      E5["XGBoost"]
-      E6["LightGBM"]
-      E7["CatBoost"]
-      E8["KNN"]
-    end
+  subgraph S3["Modeling"]
+    direction LR
+    E1["Linear Regression"]:::model
+    E2["Decision Tree"]:::model
+    E3["Random Forest"]:::model
+    E4["SVR (default and tuned)"]:::model
+    E5["XGBoost"]:::model
+    E6["LightGBM"]:::model
+    E7["CatBoost"]:::model
+    E8["KNN"]:::model
+  end
 
-    D3 --> Models
+  subgraph S4["Evaluation"]
+    direction TB
+    M1["MAE"]:::metric
+    M2["MSE and RMSE"]:::metric
+    M3["R2"]:::metric
+    M4["Actual vs Predicted Plots"]:::metric
+    M5["Compare and Select Best Model"]:::stage
+  end
 
-    subgraph Metrics["Model Comparison"]
-      M1["MAE"]
-      M2["MSE and RMSE"]
-      M3["R2"]
-      M4["Actual vs Predicted Plots"]
-    end
+  F["Final Model"]:::final
+  G["Prediction Pipeline"]:::stage
+  H["Predictions CSV: REG-02-CKPT3.csv"]:::artifact
 
-    Models --> Metrics
-    Metrics --> F["Final Model (Best among CatBoost, XGB, LGBM)"]
+  %% ===== FLOWS =====
+  B --> S1 --> S2 --> S3 --> S4 --> F --> G --> H
+  A --> B
 
-    A --> G["Prediction Pipeline"]
-    F --> G --> H["Predictions CSV: REG-02-CKPT3.csv"]
-
-    %% Simple styling (safe)
-    style A fill:#FFEDD5,stroke:#333,stroke-width:1px
-    style Preprocess fill:#E9D5FF,stroke:#333,stroke-width:1px
-    style D fill:#C7D2FE,stroke:#333,stroke-width:1px
-    style Models fill:#BBF7D0,stroke:#333,stroke-width:1px
-    style Metrics fill:#FDE68A,stroke:#333,stroke-width:1px
-    style F fill:#FCA5A5,stroke:#333,stroke-width:2px
-    style H fill:#FDE68A,stroke:#333,stroke-width:1px
+  %% ===== STYLES =====
+  classDef data fill:#FFEDD5,stroke:#333,stroke-width:1px;
+  classDef stage fill:#E5E7EB,stroke:#333,stroke-width:1px;
+  classDef box fill:#E9D5FF,stroke:#333,stroke-width:1px;
+  classDef model fill:#BBF7D0,stroke:#333,stroke-width:1px;
+  classDef metric fill:#FDE68A,stroke:#333,stroke-width:1px;
+  classDef final fill:#FCA5A5,stroke:#333,stroke-width:2px;
+  classDef artifact fill:#FDE68A,stroke:#333,stroke-width:1px;
 
 ```
 
