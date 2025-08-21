@@ -40,6 +40,52 @@ This project uses the **Kaggle Housing Dataset**:
   - Outliers replaced with **median (BsmtUnfSF)** or **mean (MasVnrArea)**:contentReference[oaicite:5]{index=5}  
 
 ---
+## 🏗️ Architecture 
+```mermaid
+flowchart TD
+    A[train.csv / test.csv] --> B[Data Loading]
+
+    subgraph Preprocess[Data Cleaning & Preprocessing]
+      B --> C1[Handle Missing Values<br/>(median/mode)]
+      C1 --> C2[Drop Sparse Columns<br/>(Alley, PoolQC, Fence, MiscFeature, Id)]
+      C2 --> C3[Outlier Handling<br/>(IQR on MasVnrArea, BsmtUnfSF)]
+    end
+
+    C3 --> D[Feature Engineering]
+    D --> D1[Type Fixes<br/>MSSubClass → categorical]
+    D1 --> D2[One-Hot Encoding]
+    D2 --> D3[RFE Feature Selection<br/>(keep ~83 features)]
+
+    subgraph Models[Model Training & Evaluation]
+      direction LR
+      E1[Linear Regression]
+      E2[Decision Tree]
+      E3[Random Forest]
+      E4[SVR (default & tuned)]
+      E5[XGBoost]
+      E6[LightGBM]
+      E7[CatBoost]
+      E8[KNN]
+    end
+
+    D3 --> Models
+
+    subgraph Metrics[Model Comparison]
+      M1[MAE]
+      M2[MSE / RMSE]
+      M3[R²]
+      M4[Actual vs Predicted Plots]
+    end
+
+    Models --> Metrics
+    Metrics -->|Select best (CatBoost/XGB/LGBM)| F[Final Model]
+
+    A -->|test.csv features aligned to train dummies| G[Prediction Pipeline]
+    F --> G --> H[Predictions CSV\nREG-02-CKPT3.csv]
+
+```
+
+---
 ## 🏠 Features  
 
 The dataset contains **80 features** (43 categorical + 38 numerical) that describe properties, their condition, and sale information.  
