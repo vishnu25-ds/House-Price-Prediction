@@ -46,12 +46,19 @@ This project uses the **Kaggle Housing Dataset**:
 ```mermaid
 
 flowchart LR
-    A["📄 PDF Upload & Validation"] --> B["📝 Text Extraction & Cleaning"] --> C["🔗 Chunking Strategy"]
-    C --> D["🗄️ Vector Database (ChromaDB)"] --> E["🔍 RAG Pipeline & Retrieval"] --> F["🤖 Gemini API Generation"]
+    A["Load Data (train.csv, test.csv)"] --> B["Clean & Impute"]
+    B --> C["Outlier Handling (IQR)"]
+    C --> D["Type Fixes, One-Hot Encode"]
+    D --> E["Feature Selection (RFE ~83)"]
+    E --> F["Train Models"]
+    F --> G["Compare Metrics (MAE, MSE, RMSE, R2)"]
+    G --> H["Select Best Model"]
+    H --> I["Predict on test.csv"]
+    I --> J["Export CSV: REG-02-CKPT3.csv"]
 
-    %% Styles: clean boxes
+    %% clean, subtle styling
     classDef node fill:#f8f9fa,stroke:#333,stroke-width:1px,color:#111;
-    class A,B,C,D,E,F node;
+    class A,B,C,D,E,F,G,H,I,J node;
 
 ```
 
