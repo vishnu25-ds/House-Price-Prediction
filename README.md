@@ -235,7 +235,14 @@ We measured performance using:
 ![KNN](images/knn_best_k.png)  
 
 ---
-
+## 🏆 Achievements  
+- Built an **end-to-end ML pipeline** from raw data → predictions  
+- Applied **feature selection (RFE)** to improve performance  
+- Trained and compared **8 regression models**  
+- Achieved **91% R²** using CatBoost  
+- Created a **modular, reproducible structure** for scalability  
+- Documented results with **EDA and evaluation metrics**  
+---
 ## 🏆 Key Takeaways  
 
 - Feature selection (RFE) improved model interpretability & accuracy  
