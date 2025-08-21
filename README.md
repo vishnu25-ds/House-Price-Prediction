@@ -47,9 +47,9 @@ flowchart TD
     A[train.csv / test.csv] --> B[Data Loading]
 
     subgraph Preprocess[Data Cleaning & Preprocessing]
-      B --> C1[Handle Missing Values (median/mode)]
-      C1 --> C2[Drop Sparse Columns (Alley, PoolQC, Fence, MiscFeature, Id)]
-      C2 --> C3[Outlier Handling (IQR on MasVnrArea, BsmtUnfSF)]
+      B --> C1[Handle Missing Values <br> (median/mode)]
+      C1 --> C2[Drop Sparse Columns <br> (Alley, PoolQC, Fence, MiscFeature, Id)]
+      C2 --> C3[Outlier Handling <br> (IQR on MasVnrArea, BsmtUnfSF)]
     end
 
     C3 --> D[Feature Engineering]
@@ -92,6 +92,7 @@ flowchart TD
     style Metrics fill:#C7CEEA,stroke:#333,stroke-width:2px
     style F fill:#FF6F61,stroke:#333,stroke-width:3px,color:#fff
     style H fill:#FFD700,stroke:#333,stroke-width:2px
+
 
 
 
