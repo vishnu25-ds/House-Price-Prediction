@@ -44,37 +44,15 @@ This project uses the **Kaggle Housing Dataset**:
 ## 🏗️ Architecture (Layered)
 
 ```mermaid
+
 flowchart LR
-  %% ===== TRAINING =====
-  subgraph T["Training Pipeline"]
-    direction TB
-    T0["train.csv"]:::data --> T1["Load Data"]:::stage
-    T1 --> T2["Impute Missing, Drop Sparse, Outlier Handling"]:::stage
-    T2 --> T3["Type Fixes and One Hot Encoding"]:::stage
-    T3 --> T4["RFE Feature Selection"]:::stage
-    T4 --> T5["Train Multiple Models"]:::model
-    T5 --> T6["Evaluate: MAE, MSE, RMSE, R2"]:::metric
-    T6 --> T7["Select Best Model"]:::final
-  end
+    A["📄 PDF Upload & Validation"] --> B["📝 Text Extraction & Cleaning"] --> C["🔗 Chunking Strategy"]
+    C --> D["🗄️ Vector Database (ChromaDB)"] --> E["🔍 RAG Pipeline & Retrieval"] --> F["🤖 Gemini API Generation"]
 
-  %% ===== INFERENCE =====
-  subgraph I["Inference Pipeline"]
-    direction TB
-    I0["test.csv"]:::data --> I1["Load Data"]:::stage
-    I1 --> I2["Apply Same Preprocessing and Encoding"]:::stage
-    I2 --> I3["Align Columns to Training Features"]:::stage
-    I3 --> I4["Load Best Model"]:::final
-    I4 --> I5["Predict SalePrice"]:::stage
-    I5 --> I6["Export CSV: REG-02-CKPT3.csv"]:::artifact
-  end
+    %% Styles: clean boxes
+    classDef node fill:#f8f9fa,stroke:#333,stroke-width:1px,color:#111;
+    class A,B,C,D,E,F node;
 
-  %% ===== STYLES =====
-  classDef data fill:#FFEDD5,stroke:#333,stroke-width:1px;
-  classDef stage fill:#E9D5FF,stroke:#333,stroke-width:1px;
-  classDef model fill:#BBF7D0,stroke:#333,stroke-width:1px;
-  classDef metric fill:#FDE68A,stroke:#333,stroke-width:1px;
-  classDef final fill:#FCA5A5,stroke:#333,stroke-width:2px;
-  classDef artifact fill:#FDE68A,stroke:#333,stroke-width:1px;
 ```
 
 ---
