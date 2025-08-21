@@ -42,6 +42,7 @@ This project uses the **Kaggle Housing Dataset**:
 ---
 ## 🏗️ Architecture
 ```mermaid
+
 flowchart TD
     A[train.csv / test.csv] --> B[Data Loading]
 
@@ -49,11 +50,12 @@ flowchart TD
       B --> C1[Handle Missing Values (median/mode)]
       C1 --> C2[Drop Sparse Columns (Alley, PoolQC, Fence, MiscFeature, Id)]
       C2 --> C3[Outlier Handling (IQR on MasVnrArea, BsmtUnfSF)]
+      C3 --> C4[Align test.csv features with train features]
     end
 
-    C3 --> D[Feature Engineering]
+    C4 --> D[Feature Engineering]
     D --> D1[Type Fixes: MSSubClass as categorical]
-    D1 --> D2[One-Hot Encoding]
+    D1 --> D2[One-Hot Encoding for categorical variables]
     D2 --> D3[RFE Feature Selection (~83 features kept)]
 
     subgraph Models[Model Training & Evaluation]
@@ -62,9 +64,9 @@ flowchart TD
       E2[Decision Tree]
       E3[Random Forest]
       E4[SVR (default & tuned)]
-      E5[XGBoost]
-      E6[LightGBM]
-      E7[CatBoost]
+      E5[XGBoost (default & tuned)]
+      E6[LightGBM (default & tuned)]
+      E7[CatBoost (default & tuned)]
       E8[KNN]
     end
 
@@ -75,13 +77,17 @@ flowchart TD
       M2[MSE / RMSE]
       M3[R²]
       M4[Actual vs Predicted Plots]
+      M5[Cross-Validation Scores]
     end
 
     Models --> Metrics
-    Metrics -->|Select best (CatBoost/XGB/LGBM)| F[Final Model]
+    Metrics -->|Select Best Model (CatBoost / XGB / LGBM)| F[Final Model]
 
-    A -->|test.csv aligned to train features| G[Prediction Pipeline]
-    F --> G --> H[Predictions CSV: REG-02-CKPT3.csv]
+    F --> G[Prediction Pipeline for Test Data]
+    G --> H[Predictions CSV: REG-02-CKPT3.csv]
+
+
+
 
 ```
 
