@@ -40,25 +40,21 @@ This project uses the **Kaggle Housing Dataset**:
   - Outliers replaced with **median (BsmtUnfSF)** or **mean (MasVnrArea)**:contentReference[oaicite:5]{index=5}  
 
 ---
-## 🏗️ Architecture 
+## 🏗️ Architecture
 ```mermaid
-
-
-
-
 flowchart TD
     A[train.csv / test.csv] --> B[Data Loading]
 
     subgraph Preprocess[Data Cleaning & Preprocessing]
-      B --> C1[Handle Missing Values<br/>(median/mode)]
-      C1 --> C2[Drop Sparse Columns<br/>(Alley, PoolQC, Fence, MiscFeature, Id)]
-      C2 --> C3[Outlier Handling<br/>(IQR on MasVnrArea, BsmtUnfSF)]
+      B --> C1[Handle Missing Values\n(median/mode)]
+      C1 --> C2[Drop Sparse Columns\n(Alley, PoolQC, Fence, MiscFeature, Id)]
+      C2 --> C3[Outlier Handling\n(IQR on MasVnrArea, BsmtUnfSF)]
     end
 
     C3 --> D[Feature Engineering]
-    D --> D1[Type Fixes<br/>MSSubClass → categorical]
+    D --> D1[Type Fixes\nMSSubClass → categorical]
     D1 --> D2[One-Hot Encoding]
-    D2 --> D3[RFE Feature Selection<br/>(keep ~83 features)]
+    D2 --> D3[RFE Feature Selection\n(keep ~83 features)]
 
     subgraph Models[Model Training & Evaluation]
       direction LR
@@ -86,7 +82,6 @@ flowchart TD
 
     A -->|test.csv features aligned to train dummies| G[Prediction Pipeline]
     F --> G --> H[Predictions CSV\nREG-02-CKPT3.csv]
-
 ```
 
 ---
